@@ -908,7 +908,7 @@ zzzz ()
 			then
 				set |
 					sed -n '/^zz[a-z0-9]/ s/ *().*//p' |
-					egrep -v "$(echo "$ZZBASE" | sed 's/ /|/g')" |
+					grep -E -v "$(echo "$ZZBASE" | sed 's/ /|/g')" |
 					sort > "$ZZTMP.on"
 			fi
 
@@ -13727,7 +13727,7 @@ zzminiurl ()
 	local urlCompara=$(echo "$url" | sed 's/\(.*\:\/\/\)\(bit\.ly\).*/\2/')
 
 	# Se o usuário não informou o protocolo, adiciona o padrão.
-	echo "$url" | egrep '^(https?|ftp|mms)://' >/dev/null || url="$prefixo$url"
+	echo "$url" | grep -E '^(https?|ftp|mms)://' >/dev/null || url="$prefixo$url"
 
 	# Testa se a URL já é encurtada, se sim, expande, senão, encurta.
 	if test 'bit.ly' = "$urlCompara"
@@ -16994,7 +16994,7 @@ zzromanos ()
 	if test $# -eq 0
 	then
 		echo "$arabicos_romanos" |
-		egrep '[15]|4000:' | tr -d '\t' | tr : '\t' |
+		grep -E '[15]|4000:' | tr -d '\t' | tr : '\t' |
 		zztac
 
 	# Se é um número inteiro positivo, transforma para número romano
@@ -17013,7 +17013,7 @@ zzromanos ()
 
 	# Se é uma string que representa um número romano válido,
 	# converte para hindu-arábico
-	elif echo "$entrada" | egrep "$regex_validacao" > /dev/null
+	elif echo "$entrada" | grep -E "$regex_validacao" > /dev/null
 	then
 		saida=0
 		# Baseado em http://diveintopython.org/unit_testing/stage_4.html
@@ -18472,9 +18472,9 @@ zztestar ()
 		mac)
 			# Testa se $2 tem um formato de MAC válido
 			# O MAC poderá ser nos formatos 00:00:00:00:00:00, 00-00-00-00-00-00 ou 0000.0000.0000
-			echo "$2" | egrep '^([0-9A-Fa-f]{2}-){5}[0-9A-Fa-f]{2}$' >/dev/null && return 0
-			echo "$2" | egrep '^([0-9A-Fa-f]{2}:){5}[0-9A-Fa-f]{2}$' >/dev/null && return 0
-			echo "$2" | egrep '^([0-9A-Fa-f]{4}\.){2}[0-9A-Fa-f]{4}$' >/dev/null && return 0
+			echo "$2" | grep -E '^([0-9A-Fa-f]{2}-){5}[0-9A-Fa-f]{2}$' >/dev/null && return 0
+			echo "$2" | grep -E '^([0-9A-Fa-f]{2}:){5}[0-9A-Fa-f]{2}$' >/dev/null && return 0
+			echo "$2" | grep -E '^([0-9A-Fa-f]{4}\.){2}[0-9A-Fa-f]{4}$' >/dev/null && return 0
 
 			test -n "$erro" && zztool erro "MAC address inválido '$2'"
 			return 1
@@ -21283,7 +21283,7 @@ then
 		echo "$ZZOFF" |
 		zztool list2lines |
 		sed 's/^zz// ; s/^/zz/' |
-		egrep -v "$(echo "$ZZBASE" | sed 's/ /|/g')"
+		grep -E -v "$(echo "$ZZBASE" | sed 's/ /|/g')"
 	)
 
 	# Desliga todas em uma só linha (note que não usei aspas)

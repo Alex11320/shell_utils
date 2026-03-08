@@ -37,7 +37,7 @@ DOCUMENTATION
 
 # Function to forcefully kill wine processes
 kill_wine() {
-    ps ax | egrep '*\.exe' | grep -v 'egrep' | awk '{print $1 }' | xargs kill -9
+    ps ax | grep -E '*\.exe' | grep -v 'grep -E' | awk '{print $1 }' | xargs kill -9
     wineserver -k
     wineserver -k9
     pkill -9 .exe
@@ -54,7 +54,7 @@ kill_wine() {
 # Function to renice wine processes
 renicewine() {
     local priority="$1"
-    ps ax | egrep '*\.exe' | grep -v 'egrep' | awk '{print $1 }' | xargs sudo renice -n "$priority"
+    ps ax | grep -E '*\.exe' | grep -v 'grep -E' | awk '{print $1 }' | xargs sudo renice -n "$priority"
     echo "---"
     top -bn 1 | grep -Ei --color .exe
     echo "---"
